@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" monitorInterval="300">
+    <properties>
+        <property name="LOG_HOME">/Users/chenhaitao/logs/wanbei</property>
+        <property name="PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%level] [%X{_TRACE_ID}] [%X{_USER_ID}] [%t]
+            %c{3}:%L%msg%n
+        </property>
+    </properties>
+
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${PATTERN}"/>
+        </Console>
+
+        <RollingRandomAccessFile name="file_log" fileName="${LOG_HOME}/wanbei_file.log"
+                                 filePattern="${LOG_HOME}/wanbei_file-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingRandomAccessFile>
+
+        <File name="ERROR" fileName="logs/error.log">
+            <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </File>
+
+    </Appenders>
+
+    <Loggers>
+        <Root level="INFO">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="file_log"/>
+            <AppenderRef ref="ERROR"></AppenderRef>
+        </Root>
+    </Loggers>
+</Configuration>
