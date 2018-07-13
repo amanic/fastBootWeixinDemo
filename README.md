@@ -1,0 +1,2 @@
+# fastBootWeixinDemo
+springboot with fastbootweixin
